@@ -86,6 +86,8 @@ type Status interface {
 
 	// capture frame
 	Capture() Status
+
+	Ok() bool
 }
 
 type status struct {
@@ -134,6 +136,10 @@ func (s *status) Message() string {
 func (s *status) SetPayload(uri, data string) Status {
 	s.payload[uri] = data
 	return s
+}
+
+func (s *status) Ok() bool {
+	return s.Code() == Ok
 }
 
 func (s *status) GetPayload(uri string) string {
@@ -193,4 +199,8 @@ func Fatal(code StatusCode, msg string) Status {
 	s.level = FatalLevel
 	s.message = msg
 	return s
+}
+
+func NewOk(msg string) Status {
+	return Info(Ok, msg)
 }

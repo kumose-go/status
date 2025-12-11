@@ -114,6 +114,13 @@ func (d *DictStatus) Capture() Status {
 	return d
 }
 
+// Capture captures the current call frame for base and all child Statuses.
+func (d *DictStatus) Ok() bool {
+	d.ensureCombined()
+	d.base.Capture()
+	return d.base.Ok()
+}
+
 // DefaultCombiner provides default aggregation logic for DictStatus.
 // base is already the aggregated result so far.
 type DefaultCombiner struct{}
